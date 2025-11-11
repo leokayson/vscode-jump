@@ -2,13 +2,13 @@
   "name": "jump",
   "displayName": "Jump",
   "description": "🏃‍♂️ Jump/Select to the Start/End of a word in VSCode",
-  "version": "0.8.0",
-  "publisher": "wenfangdu",
-  "icon": "images/icon.png",
+  "version": "0.1.0",
+  "publisher": "kaysonwu666",
+  "icon": "images/ski-jump.png",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wenfangdu/vscode-jump"
+    "url": "https://github.com/leokayson/vscode-jump"
   },
   "engines": {
     "vscode": "^1.74.0"
@@ -73,22 +73,22 @@
     ],
     "keybindings": [
       {
-        "key": "alt+q alt+q",
+        "key": "ctrl+k",
         "command": "jump-extension.jump-to-the-start-of-a-word",
         "when": "editorTextFocus"
       },
       {
-        "key": "alt+q alt+w",
+        "key": "ctrl+j",
         "command": "jump-extension.jump-to-the-end-of-a-word",
         "when": "editorTextFocus"
       },
       {
-        "key": "alt+q alt+e",
+        "key": "ctrl+shift+k",
         "command": "jump-extension.select-to-the-start-of-a-word",
         "when": "editorTextFocus"
       },
       {
-        "key": "alt+q alt+r",
+        "key": "ctrl+shift+j",
         "command": "jump-extension.select-to-the-end-of-a-word",
         "when": "editorTextFocus"
       },
@@ -125,7 +125,7 @@
         },
         "jump.display.color": {
           "type": "string",
-          "default": "#0af0c1",
+          "default": "#FFA066",
           "description": "Text color of decoration."
         }
       }
@@ -152,7 +152,7 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^3.4.1",
     "glob": "^7.2.0",
-    "mocha": "^8.4.0",
+    "mocha": "^11.7.5",
     "prettier": "^2.4.1",
     "typescript": "^4.4.3",
     "vscode-test": "^1.6.1"

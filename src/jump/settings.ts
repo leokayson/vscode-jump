@@ -45,13 +45,13 @@ interface DecorationOptions {
 
 // Default values
 const DEFAULT_REGEX_FLAGS = 'gi'
-const DEFAULT_JUMP_REGEXP = /[\wА-яЁё]{2,}/g
-const DEFAUlT_JUMP_REGEXP_EOW = /(?<=[\wА-яЁё]{2})(\b|-|\s|,|\.)/gi
+const DEFAULT_JUMP_REGEXP = /[\wА-яЁё]{2,}|\d+/g
+const DEFAUlT_JUMP_REGEXP_EOW = /(?<=[\wА-яЁё]{2})(\b|-|\s|,|\.)|(?<=\d)(?!\d)/gi
 const DEFAULT_USE_ICONS = true
 
 const DATA_URI = Uri.parse('data:')
 
-const DEFAULT_COLOR = '#0af0c1'
+const DEFAULT_COLOR = '#FFA066'
 const DEFAULT_BACKGROUND_COLOR = '#004455'
 
 export class Settings implements ExtensionComponent {
@@ -93,10 +93,7 @@ export class Settings implements ExtensionComponent {
     const useIcons = settings.get<boolean>(Setting.UseIcons) ?? DEFAULT_USE_ICONS
     const [codePrefix, codeSuffix] = useIcons ? this.createCodeAffixes() : ['', '']
 
-    return this.createRenderOptions(
-      useIcons,
-      `${codePrefix}${text}${codeSuffix}`,
-    )
+    return this.createRenderOptions(useIcons, `${codePrefix}${text}${codeSuffix}`)
   }
 
   public update(): void {
