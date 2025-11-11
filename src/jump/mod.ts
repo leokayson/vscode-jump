@@ -17,6 +17,7 @@ import { ExtensionComponent, Nullable } from './typings'
 const enum Command {
   Type = 'type',
   ReplacePreviousChar = 'replacePreviousChar',
+  DeleteLeft = 'deleteLeft',
   Exit = 'jump-extension.exit',
   Enter = 'jump-extension.jump-to-the-start-of-a-word',
   EnterEOW = 'jump-extension.jump-to-the-end-of-a-word',
@@ -99,6 +100,7 @@ export class Jump implements ExtensionComponent {
     this.handles = {
       [Command.Type]: null,
       [Command.ReplacePreviousChar]: null,
+      [Command.DeleteLeft]: null,
       [Command.Exit]: null,
       [Command.Enter]: null,
       [Command.EnterEOW]: null,
@@ -215,6 +217,11 @@ export class Jump implements ExtensionComponent {
       () => {},
     )
 
+    this.handles[Command.DeleteLeft] = commands.registerCommand(
+      Command.DeleteLeft,
+      this.handleBackspace,
+    )
+
     this.state.matchStartOfWord = matchStartOfWord
     this.state.expandSelection = expandSelection
     this.state.editor = activeEditor
@@ -232,6 +239,7 @@ export class Jump implements ExtensionComponent {
 
     this.tryDispose(Command.Type)
     this.tryDispose(Command.ReplacePreviousChar)
+    this.tryDispose(Command.DeleteLeft)
     this.setJumpContext(false)
   }
 
@@ -243,6 +251,7 @@ export class Jump implements ExtensionComponent {
 
     if (this.state.typedCharacters.length === 0) {
       this.state.typedCharacters += text.toLowerCase()
+      this.showFilteredDecorations(this.state.typedCharacters)
       return
     }
 
@@ -344,5 +353,49 @@ export class Jump implements ExtensionComponent {
     }
 
     this.setDecorations(editor, decorationOptions)
+  }
+
+  private showFilteredDecorations(firstChar: string): void {
+    const { editor } = this.state
+    if (!editor) {
+      return
+    }
+
+    const filteredDecorations: DecorationOptions[] = []
+
+    for (const [code, position] of Object.entries(this.positions)) {
+      if (code.startsWith(firstChar)) {
+        const { line } = position
+        const char = position.char + this.settings.charOffset
+
+        const secondChar = code.charAt(1)
+
+        filteredDecorations.push({
+          range: new Range(line, char, line, char),
+          renderOptions: this.settings.createDynamicOptions(secondChar),
+        })
+      }
+    }
+
+    this.setDecorations(editor, filteredDecorations)
+  }
+
+  private handleBackspace = (): void => {
+    if (!this.state.isInJumpMode) {
+      return
+    }
+
+    if (this.state.typedCharacters.length > 0) {
+      // // Delete the typed character. Since only 2 chars are shown, we can just clear it.
+      // this.state.typedCharacters = ""
+      // this.showDecorations()
+      this.state.typedCharacters = this.state.typedCharacters.slice(0, -1)
+
+      if (this.state.typedCharacters.length === 0) {
+        this.showDecorations()
+      } else {
+        this.showFilteredDecorations(this.state.typedCharacters)
+      }
+    }
   }
 }

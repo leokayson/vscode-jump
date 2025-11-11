@@ -88,6 +88,17 @@ export class Settings implements ExtensionComponent {
     return this.codeOptions.get(code) as DecorationInstanceRenderOptions
   }
 
+  public createDynamicOptions(text: string): DecorationInstanceRenderOptions {
+    const settings = workspace.getConfiguration(SettingNamespace.Jump)
+    const useIcons = settings.get<boolean>(Setting.UseIcons) ?? DEFAULT_USE_ICONS
+    const [codePrefix, codeSuffix] = useIcons ? this.createCodeAffixes() : ['', '']
+
+    return this.createRenderOptions(
+      useIcons,
+      `${codePrefix}${text}${codeSuffix}`,
+    )
+  }
+
   public update(): void {
     this.buildDecorationType()
     this.buildWordRegexp()
