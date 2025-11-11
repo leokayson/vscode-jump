@@ -1,6 +1,6 @@
 {
-  "name": "jump",
-  "displayName": "Jump",
+  "name": "jump2",
+  "displayName": "Jump2",
   "description": "🏃‍♂️ Jump/Select to the Start/End of a word in VSCode",
   "version": "0.1.0",
   "publisher": "kaysonwu666",
@@ -109,7 +109,7 @@
       }
     ],
     "configuration": {
-      "title": "Jump",
+      "title": "Jump2",
       "properties": {
         "jump.primaryCharset": {
           "type": "string",
