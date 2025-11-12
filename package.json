@@ -27,6 +27,7 @@
     "fast",
     "go",
     "jump",
+    "jump2",
     "jumpy",
     "keyboard",
     "line",
@@ -127,6 +128,21 @@
           "type": "string",
           "default": "#0af0c1",
           "description": "Text color of decoration."
+        },
+        "jump.wordRegexp": {
+          "type": "string",
+          "default": "",
+          "description": "Regular expression for matching words. Leave empty to use the default regex expression."
+        },
+        "jump.wordRegexpEndOfWord": {
+          "type": "string",
+          "default": "",
+          "description": "Regular expression for matching the end of words. Leave empty to use the default regex expression."
+        },
+        "jump.wordRegexpFlags": {
+          "type": "string",
+          "default": "gi",
+          "description": "Flags for the word regular expressions."
         }
       }
     }
