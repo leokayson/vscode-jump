@@ -2,7 +2,7 @@
   "name": "jump2",
   "displayName": "Jump2",
   "description": "🏃‍♂️ Jump/Select to the Start/End of a word in VSCode",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "kaysonwu666",
   "icon": "images/ski-jump.png",
   "license": "MIT",
@@ -27,6 +27,7 @@
     "fast",
     "go",
     "jump",
+    "jump2",
     "jumpy",
     "keyboard",
     "line",
@@ -127,6 +128,21 @@
           "type": "string",
           "default": "#FFA066",
           "description": "Text color of decoration."
+        },
+        "jump.wordRegexp": {
+          "type": "string",
+          "default": "",
+          "description": "Regular expression for matching words. Leave empty to use the default regex expression."
+        },
+        "jump.wordRegexpEndOfWord": {
+          "type": "string",
+          "default": "",
+          "description": "Regular expression for matching the end of words. Leave empty to use the default regex expression."
+        },
+        "jump.wordRegexpFlags": {
+          "type": "string",
+          "default": "gi",
+          "description": "Flags for the word regular expressions."
         }
       }
     }

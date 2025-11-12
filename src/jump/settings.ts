@@ -45,8 +45,8 @@ interface DecorationOptions {
 
 // Default values
 const DEFAULT_REGEX_FLAGS = 'gi'
-const DEFAULT_JUMP_REGEXP = /[\wА-яЁё]{2,}|\d+/g
-const DEFAUlT_JUMP_REGEXP_EOW = /(?<=[\wА-яЁё]{2})(\b|-|\s|,|\.)|(?<=\d)(?!\d)/gi
+const DEFAULT_JUMP_REGEXP = /[A-Za-z0-9_\u4e00-\u9fff]{2,}/g
+const DEFAULT_JUMP_REGEXP_EOW = /(?<=[A-Za-z0-9_\u4e00-\u9fff]{2})(\b|-|\s|,|\.)|(?<=\d)(?!\d)/gi
 const DEFAULT_USE_ICONS = true
 
 const DATA_URI = Uri.parse('data:')
@@ -70,7 +70,7 @@ export class Settings implements ExtensionComponent {
     this.codeOptions = new Map()
     this.codes = []
     this.wordRegexp = DEFAULT_JUMP_REGEXP
-    this.endOfWordRegexp = DEFAUlT_JUMP_REGEXP_EOW
+    this.endOfWordRegexp = DEFAULT_JUMP_REGEXP_EOW
     this.charOffset = 0
     this.cursorSurroundingLines = 0
   }
@@ -168,15 +168,21 @@ export class Settings implements ExtensionComponent {
   private buildWordRegexp(): void {
     const jumpConfig = workspace.getConfiguration(SettingNamespace.Jump)
     const userWordRegex = jumpConfig[Setting.WordRegexp]
-    const userEndOfWordRegex = jumpConfig[Setting.WordRegexpEndOfWord]
+
+    const userEndOfWordRegex =
+      jumpConfig.get<string>(Setting.WordRegexpEndOfWord) ?? DEFAULT_REGEX_FLAGS
     const userWordRegexFlags = jumpConfig[Setting.WordRegexpFlags] ?? DEFAULT_REGEX_FLAGS
 
     if (userWordRegex?.length) {
       this.wordRegexp = new RegExp(userWordRegex, userWordRegexFlags)
+    } else {
+      this.wordRegexp = DEFAULT_JUMP_REGEXP
     }
 
     if (userEndOfWordRegex?.length) {
       this.endOfWordRegexp = new RegExp(userEndOfWordRegex, userWordRegexFlags)
+    } else {
+      this.endOfWordRegexp = DEFAULT_JUMP_REGEXP_EOW
     }
   }
 
